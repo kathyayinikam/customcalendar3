@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple calendar</title>
+    <style>
+        .calendar {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            align-items: center;
+        }
+
+        .display {
+            width: 600px;
+  
+        }
+
+        .month {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 3px;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            padding: 5px;
+            font-weight: 900;
+        }
+
+        .day {
+            padding: 3px;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid #eee;
+            font-size: 16px;
+        }
+
+        .day:last-child {
+            border-right: none;
+        }
+
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+
+        #button {
+            background-color: #3498db;
+            color: white;
+            border-radius: 50px;
+            border: #3498db;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: 700;
+           
+        }
+        #card{
+            height: 303px;
+         
+          background-position: center;
+          background-repeat: no-repeat;
+          background-position: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="button">Convert to PDF</button>
+    <!--<label for="language">Select Language:</label>
+    <select id="language">
+        <option value="en">English</option>
+        <option value="kn">Kannada</option>
+        <option value="es">Spanish</option>
+        <option value="ar">Arabic</option>
+    </select>
+    <label for="holiday">Select holiday:</label>
+    <select id="holiday">
+        <option value="Sun">Sunday</option>
+        <option value="Fri">Friday</option>
+    </select>
+    <a href="./calcol.html"> <button class="button">Calendar in rows</button></a>
+    
+    <a href="./calcol.html"> <button class="button">Calendar in rows</button></a>-->
+    <div class="calendar" id="main">
+        <div class="display"id="display">
+            <script>
+                const kannadaMonthNames = ['ಜನವರಿ', 'ಫೆಬ್ರವರಿ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿಲ್', 'ಮೇ', 'ಜೂನ್', 'ಜುಲೈ', 'ಆಗಸ್ಟ್', 'ಸೆಪ್ಟೆಂಬರ್', 'ಅಕ್ಟೋಬರ್', 'ನವೆಂಬರ್', 'ಡಿಸೆಂಬರ್'];
+                function printmonth(year, month, Language) {
+                    document.write('<div id="card">');
+                    const firstday = new Date(year, month - 1, 1);
+                    let monthname;
+                    
+                        monthname = kannadaMonthNames[month - 1];
+                    const lastday = new Date(year, month, 0).getDate();
+                    document.write('<div class="month">' + monthname + '' + year + '</div>');
+                    const daysofweek = ["ಭಾನು","ಸೋಮ","ಮಂಗಳ","ಬುಧ","ಗುರು","ಶುಕ್ರ","ಶನಿ"];
+                    const holiday='ಭಾನು';
+                    document.write('<div class="days">');
+                    for (let day of daysofweek) {
+                        if(day=='ಭಾನು'){
+                            document.write('<div class="day" style="color:red">' + day + '</div>');
+                        }
+                        else{
+                        document.write('<div class="day">' + day + '</div>');
+                        }
+                    }
+                   
+                    document.write('</div>');
+                    let currentDay = 1;
+                    let currentWeek = 1;
+
+                    while (currentDay <= lastday) {
+                        document.write('<div class="days">');
+                        for (let i = 0; i < 7; i++) {
+                            if (currentWeek === 1 && i < firstday.getDay()) {
+                                document.write('<div class="day"></div>');
+                            } else if (currentDay <= lastday) {
+                                if (i === daysofweek.indexOf(holiday)) {
+                                    document.write('<div class="day" style="color: red;">' + currentDay + '</div>');
+                                } else {
+                                    document.write('<div class="day">' + currentDay + '</div>');
+                                }
+                                currentDay++;
+                            }
+                        }
+                        document.write('</div>');
+                        currentWeek++;
+                    }
+                    document.write('</div>')
+                }
+            
+                
+                function printcalendar(year, selectedLanguage) {
+                    document.write('<div id="pages">')
+                    for (month = 1; month < 13; month++) {
+                      
+                        printmonth(year, month, selectedLanguage);   
+                    }
+                    document.write('</div>')
+                }
+                printcalendar(2024, 'en', 'Sun');
+            </script>
+<script>
+    document.getElementById('button').addEventListener('click', function () {
+    
+      const element = document.getElementById('pages');
+  
+      
+      const options = {
+        margin: 10,
+        filename: 'converted.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3},
+        jsPDF: { unit: 'mm', format: [150, 100], orientation: 'landscape' },
+      };
+  
+     
+      html2pdf(element, options);
+    });
+  </script>
+  <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+
+        </div>
+    </div>
+</body>
+
+</html>
